@@ -44,3 +44,51 @@ pub mod option {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono::{TimeZone, Utc};
+    use serde_json;
+
+    #[test]
+    fn test_serialize_deserialize_datetime() {
+        let naive = Utc
+            .with_ymd_and_hms(2023, 9, 3, 12, 34, 56)
+            .unwrap()
+            .naive_utc();
+        let naive = naive
+            .checked_add_signed(chrono::Duration::milliseconds(789))
+            .unwrap();
+        let dt: DateTime<Utc> = DateTime::from_naive_utc_and_offset(naive, Utc);
+        let json = serde_json::to_string(&dt).unwrap();
+        let deserialized: DateTime<Utc> = serde_json::from_str(&json).unwrap();
+        assert_eq!(dt, deserialized);
+    }
+
+    #[test]
+    fn test_serialize_deserialize_option_some() {
+        let naive = Utc
+            .with_ymd_and_hms(2023, 9, 3, 12, 34, 56)
+            .unwrap()
+            .naive_utc();
+        let naive = naive
+            .checked_add_signed(chrono::Duration::milliseconds(789))
+            .unwrap();
+        let dt: DateTime<Utc> = DateTime::from_naive_utc_and_offset(naive, Utc);
+        let opt_dt = Some(dt);
+        let json = serde_json::to_string(&opt_dt).unwrap();
+        let deserialized: Option<DateTime<Utc>> =
+            option::deserialize(&mut serde_json::Deserializer::from_str(&json)).unwrap();
+        assert_eq!(opt_dt, deserialized);
+    }
+
+    #[test]
+    fn test_serialize_deserialize_option_none() {
+        let opt_dt: Option<DateTime<Utc>> = None;
+        let json = serde_json::to_string(&opt_dt).unwrap();
+        let deserialized: Option<DateTime<Utc>> =
+            option::deserialize(&mut serde_json::Deserializer::from_str(&json)).unwrap();
+        assert_eq!(opt_dt, deserialized);
+    }
+}
