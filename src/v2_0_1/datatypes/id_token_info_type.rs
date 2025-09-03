@@ -4,6 +4,7 @@ use chrono::Utc;
 use super::id_token_type::IdTokenType;
 use super::message_content_type::MessageContentType;
 use crate::v2_0_1::enumerations::authorization_status_enum_type::AuthorizationStatusEnumType;
+use crate::v2_0_1::helpers::datetime_rfc3339;
 
 /// Contains status information about an identifier. It is advised to not stop charging for a token that expires during charging, as ExpiryDate is only used for caching purposes. If ExpiryDate is not given, the status has no end date.
 /// IdTokenInfoType is used by: Common:AuthorizationData , AuthorizeResponse , TransactionEventResponse
@@ -11,7 +12,10 @@ use crate::v2_0_1::enumerations::authorization_status_enum_type::AuthorizationSt
 #[serde(rename_all = "camelCase")]
 pub struct IdTokenInfoType {
     pub status: AuthorizationStatusEnumType,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        with = "datetime_rfc3339::option"
+    )]
     pub cache_expiry_date_time: Option<DateTime<Utc>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub charging_priority: Option<i32>,
