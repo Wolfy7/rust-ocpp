@@ -13,6 +13,7 @@ use crate::v2_0_1::helpers::datetime_rfc3339;
 pub struct IdTokenInfoType {
     pub status: AuthorizationStatusEnumType,
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]

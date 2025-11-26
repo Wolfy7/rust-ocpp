@@ -16,6 +16,7 @@ pub struct ChargingNeedsType {
     pub requested_energy_transfer: EnergyTransferModeEnumType,
     /// Estimated departure time of the EV.
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]

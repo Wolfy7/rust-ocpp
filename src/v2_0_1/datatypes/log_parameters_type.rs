@@ -9,11 +9,13 @@ use chrono::Utc;
 pub struct LogParametersType {
     pub remote_location: String,
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]
     pub oldest_timestamp: Option<DateTime<Utc>>,
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]

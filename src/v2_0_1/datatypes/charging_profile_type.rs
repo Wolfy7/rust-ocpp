@@ -25,12 +25,14 @@ pub struct ChargingProfileType {
     pub recurrency_kind: Option<RecurrencyKindEnumType>,
     /// Optional. Point in time at which the profile starts to be valid. If absent, the profile is valid as soon as it is received by the Charging Station
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]
     pub valid_from: Option<DateTime<Utc>>,
     /// Optional. Point in time at which the profile stops to be valid. If absent, the profile is valid until it is replaced by another profile
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]

@@ -11,6 +11,7 @@ pub struct FirmwareType {
     #[serde(with = "datetime_rfc3339 ")]
     pub retrieve_date_time: DateTime<Utc>,
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]

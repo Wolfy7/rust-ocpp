@@ -17,6 +17,7 @@ pub struct ChargingScheduleType {
     pub id: i32,
     /// Optional. Starting point of an absolute schedule. If absent the schedule will be relative to start of charging
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]

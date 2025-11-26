@@ -17,11 +17,13 @@ pub struct MessageInfoType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub state: Option<MessageStateEnumType>,
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]
     pub start_date_time: Option<DateTime<Utc>>,
     #[serde(
+        default,
         skip_serializing_if = "Option::is_none",
         with = "datetime_rfc3339::option"
     )]
